@@ -105,6 +105,22 @@ void process_create_table(std::vector<std::string> input) {
 		no++;
 	}
 }
+void process_create_index(std::vector<std::string> input) {
+	std::cout << std::endl << "This command creates an index: " << input[2] << " on the table: " << input[4] << ", collumn: "
+		<< input[5];
+}
+
+void process_drop_table(std::vector<std::string> input) {
+	std::cout << std::endl << "This command deletes the table: " << input[2];
+}
+
+void process_drop_index(std::vector<std::string> input) {
+	std::cout << std::endl << "This command deletes the index: " << input[2];
+}
+
+void process_display_table(std::vector<std::string> input) {
+	std::cout << std::endl << "This command displays the table: " << input[2];
+}
 int main() {
 	std::ifstream file("Text.txt");
 	if (!file) {
@@ -126,7 +142,25 @@ int main() {
 		if (words[0] == "CREATE") {
 			if (words[1] == "TABLE")
 				process_create_table(words);
+			else
+				if (words[1] == "INDEX")
+					process_create_index(words);
 		}
+		else {
+			if (words[0] == "DROP") {
+				if (words[1] == "TABLE")
+					process_drop_table(words);
+				else
+					if (words[1] == "INDEX")
+						process_drop_index(words);
+			}
+			else
+				if (words[0] == "DISPLAY" && words[1] == "TABLE")
+					process_display_table(words);
+				else
+					std::cout << std::endl << "ERROR: This command does not follow the accepted syntax for a DB management command!!!";
+		}
+		std::cout << std::endl << "**********";
 	}
 	
 	return 0;
