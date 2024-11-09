@@ -1,0 +1,46 @@
+#include<iostream>
+#include <fstream>
+#include<string>
+#include<vector>
+
+std::vector<std::string> split_up_input(std::string input) {
+	std::string word;
+	std::vector<std::string> words_v;
+	for (char c : input) {
+		if (c == ' ' || c==',' || c=='(') {
+			if (!word.empty()) {
+				words_v.push_back(word);
+				word.clear();
+			}
+		}
+		else {
+			if(c!=')')
+			word += c;
+		}
+	}
+	if (!word.empty())
+		words_v.push_back(word);
+	return words_v;
+}
+int main() {
+	std::ifstream file("Text.txt");
+	if (!file) {
+		std::cout << "could not read file";
+		return 1;
+	}
+	std::string line;
+	std::vector<std::string> words;
+	int i = 1;
+	while (std::getline(file, line)) {
+		words.clear();
+		words = split_up_input(line);
+		std::cout << "the words I found for line " << i << " are: ";
+		for (std::string word : words) {
+			std::cout <<word<<"; ";
+		}
+		std::cout << std::endl;
+		i++;
+	}
+	return 0;
+
+}
