@@ -3,6 +3,64 @@
 #include<string>
 #include<vector>
 
+class collumn {
+	std::string table_name;
+	std::string name;
+	std::string type;
+	int size;
+	std::string default_value;
+public:
+	void set_table(std::string table_name) {
+		this->table_name = table_name;
+	}
+	void set_name(std::string name) {
+		this->name = name;
+	}
+	void set_type(std::string type) {
+		if (type != "text" && type != "integer" && type != "float")
+			throw "Wrong Type";
+		else
+			this->type = type;
+	}
+	void set_size(int size) {
+		this->size = size;
+	}
+	void set_default_value(std::string def_value) {
+		this->default_value = def_value;
+	}
+	collumn(std::string table_name, std::string name, std::string type, int size, std::string def_value) {
+		this->set_table(table_name);
+		this->set_name(name);
+		this->set_type(type);
+		this->set_size(size);
+		this->set_default_value(def_value);
+	}
+};
+
+class table {
+	std::string name;
+	collumn* collumns;
+	int no_of_collumns;
+
+public:
+	void set_name(std::string name) {
+		this->name = name;
+	}
+	void set_no_of_collumns(int no) {
+		this->no_of_collumns = no;
+	}
+	int get_no_of_collumns() {
+		return this->no_of_collumns;
+	}
+	void set_collumn(collumn col, int col_index) {
+		this->collumns[col_index] = col;
+	}
+	table(std::string name, int no) {
+		this->set_name(name);
+		this->set_no_of_collumns(no);
+	}
+};
+
 std::vector<std::string> split_up_input(std::string input) {
 	std::string word;
 	std::vector<std::string> words_v;
@@ -22,6 +80,31 @@ std::vector<std::string> split_up_input(std::string input) {
 		words_v.push_back(word);
 	return words_v;
 }
+
+void process_create_table(std::vector<std::string> input) {
+	std::cout << std::endl << "This command creates the table: " << input[2] << " with the collumns: ";
+	int n = 3;
+	int no = 1;
+	while (n < input.size()) {
+		std::string col_name = input[n];
+		std::string col_type = input[n+1];
+		std::string col_size = input[n + 2];
+		std::string col_def_val = input[n + 3];
+		if (col_type != "text" && col_type != "integer" && col_type != "float") {
+			std::cout << std::endl << "Error: wrong input type for collumn " << no;
+		}
+		else {
+			std::cout << std::endl << "Collumn number " << no << " with the name " << col_name << ", type " <<
+				col_type << ", size " << col_size << " and default value ";
+			for (char c : col_def_val) {
+				if (c != '"')
+					std::cout << c;
+			}
+		}
+		n += 4;
+		no++;
+	}
+}
 int main() {
 	std::ifstream file("Text.txt");
 	if (!file) {
@@ -40,7 +123,12 @@ int main() {
 		}
 		std::cout << std::endl;
 		i++;
+		if (words[0] == "CREATE") {
+			if (words[1] == "TABLE")
+				process_create_table(words);
+		}
 	}
+	
 	return 0;
 
 }
