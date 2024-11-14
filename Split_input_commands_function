@@ -28,7 +28,7 @@ public:
 	void set_default_value(std::string def_value) {
 		this->default_value = def_value;
 	}
-	collumn(std::string table_name, std::string name, std::string type, int size, std::string def_value) {
+	void set_collumn(std::string table_name, std::string name, std::string type, int size, std::string def_value){
 		this->set_table(table_name);
 		this->set_name(name);
 		this->set_type(type);
@@ -39,27 +39,36 @@ public:
 
 class table {
 	std::string name;
-	collumn* collumns;
-	int no_of_collumns;
-
+	std::vector<collumn*> collumns;
 public:
 	void set_name(std::string name) {
 		this->name = name;
 	}
-	void set_no_of_collumns(int no) {
-		this->no_of_collumns = no;
-	}
-	int get_no_of_collumns() {
-		return this->no_of_collumns;
-	}
-	void set_collumn(collumn col, int col_index) {
-		this->collumns[col_index] = col;
-	}
-	table(std::string name, int no) {
-		this->set_name(name);
-		this->set_no_of_collumns(no);
+	void add_collumn(collumn* col){
+		if(col!=nullptr)
+			collumns.pushback(col);
 	}
 };
+
+class database{
+	std::vector<table*> tables;
+	std::vector<collum*> collumns;
+public:
+	void add_table(table* tab){
+		int o=0;
+		for(table* table_cur : tables){
+			if(table_cur->name == tab->name)
+				o=1;
+		}
+		if(o==0){
+			tables.pushback(tab); 
+		}
+		else{
+			throw Table with this name already exists;
+		}
+	}
+};
+
 
 std::vector<std::string> split_up_input(std::string input) {
 	std::string word;
