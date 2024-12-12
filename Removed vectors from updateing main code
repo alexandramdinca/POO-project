@@ -261,7 +261,7 @@ int main() {
 				else
 					std::cout << std::endl << "ERROR: This command does not follow the accepted syntax for a DB management command!!!";
 		}
-		//methods generic; //daca metodele sunt statice nu au nevoie de instantierea clasei
+		//methods generic; daca metodele sunt statice nu au nevoie de instantierea clasei
 		methods::process_management_command( words, no_w);
 		std::cout << std::endl << "**********";
 	}
