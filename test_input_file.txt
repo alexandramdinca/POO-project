@@ -1,0 +1,5 @@
+CREATE TABLE zuzu ((nume,text,20,""),(telefon,text,10,""))
+CREATE INDEX dupatel ON zuzu(telefon)
+DISPLAY TABLE zuzu
+DROP TABLE zuzu
+LMAO lol
